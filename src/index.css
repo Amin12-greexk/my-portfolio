@@ -1,19 +1,38 @@
-
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@layer base {
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 }
-
+@layer base {
+  @font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    src: url('https://rsms.me/inter/font-files/Inter-Regular.woff2') format('woff2');
+  }
+  @font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    src: url('https://rsms.me/inter/font-files/Inter-Medium.woff2') format('woff2');
+  }
+  @font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 600;
+    src: url('https://rsms.me/inter/font-files/Inter-SemiBold.woff2') format('woff2');
+  }
+  @font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 700;
+    src: url('https://rsms.me/inter/font-files/Inter-Bold.woff2') format('woff2');
+  }
+}
+#root {
+  /*
+    The max-width, margin, and padding properties have been removed
+    to allow the App component to control the layout.
+  */
+}
 a {
   font-weight: 500;
   color: #646cff;
@@ -25,8 +44,10 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
+  /*
+    'display: flex' and 'place-items: center' are removed so the
+    app is not centered in the middle of the page.
+  */
   min-width: 320px;
   min-height: 100vh;
 }
