@@ -1,7 +1,7 @@
 /* src/App.css */
 
 /* --- Google Font Import --- */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&family=Playfair+Display:wght@700&display=swap');
 
 /* --- CSS Variables for Theming --- */
 :root {
@@ -11,10 +11,11 @@
   --text-primary: #c9d1d9;
   --text-secondary: #8b949e;
   --accent-red: #f85149;
-  /* --- New Gradient and Hover Effect --- */
   --accent-gradient: linear-gradient(90deg, #f85149, #e1468c);
   --accent-hover: #e1468c;
   --font-main: 'Inter', sans-serif;
+  /* New Font for Titles */
+  --font-display: 'Playfair Display', serif;
 }
 
 /* General Body and Theme */
@@ -27,12 +28,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* App container */
 .app {
   min-height: 100vh;
 }
 
-/* Progress Bar */
 .progress-bar {
     position: fixed;
     top: 0;
@@ -44,8 +43,7 @@ body {
     z-index: 100;
 }
 
-
-/* Header and Navigation (Glassmorphism Effect) */
+/* --- Header and Navigation --- */
 .header {
   background-color: rgba(22, 27, 34, 0.8);
   backdrop-filter: blur(12px);
@@ -55,7 +53,14 @@ body {
   top: 0;
   z-index: 50;
   border-bottom: 1px solid var(--border-color);
+  transition: box-shadow 0.3s ease;
 }
+
+/* New style for when the page is scrolled */
+.header.scrolled {
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+}
+
 
 .nav {
   display: flex;
@@ -88,7 +93,6 @@ body {
   color: var(--accent-hover);
 }
 
-/* Mobile Menu (Hamburger) */
 .menu-button {
   display: block;
   background: none;
@@ -120,14 +124,13 @@ body {
   color: white;
 }
 
-/* Main content sections */
 .container {
   max-width: 1100px;
   margin: auto;
   padding: 0 2rem;
 }
 
-/* Hero Section with Video Background */
+/* --- Hero Section --- */
 .hero.video-background {
   position: relative;
   height: 100vh;
@@ -176,7 +179,7 @@ body {
   color: #ffffff;
 }
 
-.hero-content p {
+.hero-content .hero-subtitle {
   font-size: clamp(1.1rem, 4vw, 1.35rem);
   color: var(--text-primary);
   margin-bottom: 2.5rem;
@@ -202,7 +205,6 @@ body {
   box-shadow: 0 8px 25px rgba(248, 81, 73, 0.5);
 }
 
-/* Text Gradient animation for hero title */
 @keyframes animated-gradient {
 	0% { background-position: 0% 50%; }
 	50% { background-position: 100% 50%; }
@@ -218,23 +220,27 @@ body {
   animation: animated-gradient 5s ease-in-out infinite;
 }
 
-/* Sections */
+/* --- General Sections --- */
 .about, .projects, .contact, .skills {
-  padding: 6rem 0;
+  padding: 6rem 2rem;
   border-bottom: 1px solid var(--border-color);
 }
 
-/* About Section */
-/* src/App.css */
-
-/* === NEW About Section Styles === */
-/* (Replace your old .about, .about-image, and .about-text styles with these) */
-
-.about {
-  background-color: #10151b; /* A slightly different shade for depth */
+.section-title {
+  text-align: center;
+  font-size: clamp(2.2rem, 5vw, 3rem);
+  font-weight: 700;
+  margin-bottom: 4rem;
+  /* Use the new display font */
+  font-family: var(--font-display);
+  letter-spacing: 1px;
 }
 
-/* New card layout */
+/* About Section */
+.about {
+  background-color: #10151b;
+}
+
 .about-card {
     background-color: var(--primary-surface);
     border: 1px solid var(--border-color);
@@ -246,7 +252,6 @@ body {
     text-align: center;
 }
 
-/* Center the image and refine its style */
 .about-image img {
     width: 180px;
     height: 180px;
@@ -257,13 +262,13 @@ body {
     margin-bottom: 1.5rem;
 }
 
-/* Adjust text styles */
 .about-text h3 {
     font-size: 1.8rem;
     font-weight: 700;
     color: var(--text-primary);
     margin-top: 0;
     margin-bottom: 1.5rem;
+    font-family: var(--font-display);
 }
 
 .about-text p {
@@ -272,11 +277,10 @@ body {
     margin-bottom: 1rem;
 }
 
-/* New stats section */
 .about-stats {
     display: flex;
     justify-content: center;
-    gap: 1rem 2.5rem; /* row and column gap */
+    gap: 1rem 2.5rem;
     flex-wrap: wrap;
     margin-top: 2.5rem;
     padding-top: 2rem;
@@ -303,32 +307,11 @@ body {
     letter-spacing: 0.5px;
 }
 
-/* Remove old media query for .about if it exists */
-/* Delete this from your CSS if you find it */
-@media (min-width: 768px) {
-  .about {
-    /* ... (old styles like flex-direction: row) ... */
-  }
-}
-
-/* Section Title */
-.section-title {
-  text-align: center;
-  font-size: clamp(2rem, 5vw, 2.75rem);
-  font-weight: 800;
-  margin-bottom: 4rem;
-}
-
-/* Projects Section */
+/* --- Projects Section --- */
 .projects-grid {
   display: grid;
   grid-template-columns: 1fr;
   gap: 2.5rem;
-}
-
-/* Project Card */
-.project-card-wrapper {
-  position: relative;
 }
 
 .project-card {
@@ -342,23 +325,63 @@ body {
   flex-direction: column;
 }
 
-.project-card-wrapper:hover .project-card {
+.project-card:hover {
   transform: translateY(-8px);
   box-shadow: 0 0 25px rgba(248, 81, 73, 0.25), 0 10px 20px rgba(0,0,0,0.2);
 }
 
+/* NEW project card hover effect */
 .project-image-container {
     width: 100%;
     aspect-ratio: 16 / 9;
     overflow: hidden;
     border-bottom: 1px solid var(--border-color);
+    position: relative; /* Needed for the overlay */
 }
 
 .project-image-container img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform 0.4s ease;
 }
+
+.project-card:hover .project-image-container img {
+    transform: scale(1.05); /* Slightly zoom image on hover */
+}
+
+/* New Image Overlay */
+.image-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.project-card:hover .image-overlay {
+    opacity: 1;
+}
+
+.overlay-link {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 0.75rem 1.5rem;
+    border: 2px solid white;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+}
+
+.overlay-link:hover {
+    background: white;
+    color: black;
+}
+
 
 .card-content {
   padding: 1.5rem;
@@ -378,6 +401,7 @@ body {
   color: var(--text-secondary);
   line-height: 1.6;
   flex-grow: 1;
+  margin-bottom: 1.5rem;
 }
 
 .tech-stack {
@@ -399,6 +423,7 @@ body {
 
 .card-links {
   display: flex;
+  flex-wrap: wrap;
   gap: 1rem;
   margin-top: auto;
 }
@@ -410,6 +435,8 @@ body {
   font-weight: 500;
   transition: all 0.3s ease;
   font-size: 0.9rem;
+  flex-grow: 1;
+  text-align: center;
 }
 
 .card-button {
@@ -435,14 +462,10 @@ body {
 }
 
 
-/* Contact Section */
+/* --- Contact Section --- */
 .contact {
   text-align: center;
   background: none;
-}
-
-.contact .section-title {
-  margin-bottom: 2rem;
 }
 
 .contact p {
@@ -453,16 +476,18 @@ body {
   line-height: 1.7;
 }
 
-/* Footer */
+/* --- Footer --- */
 .footer {
   text-align: center;
-  padding: 3rem 0;
+  padding: 3rem 2rem;
   color: var(--text-secondary);
   font-size: 0.9rem;
   border-top: 1px solid var(--border-color);
+  background: var(--primary-surface);
 }
 
-/* Skills Section */
+
+/* --- Skills Section --- */
 .skills-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
@@ -508,19 +533,10 @@ body {
 }
 
 
-/* --- Responsive Design (Media Queries) --- */
+/* --- Responsive Design --- */
 @media (min-width: 768px) {
   .nav-links { display: flex; }
   .menu-button { display: none; }
-
-  .about {
-    flex-direction: row;
-    text-align: left;
-  }
-  
-  .about-text { text-align: left; }
-  .about-text p { margin-left: 0; margin-right: 0; }
-
   .projects-grid { grid-template-columns: repeat(2, 1fr); }
 }
 

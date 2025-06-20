@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
+// src/App.tsx
+
+import React, { useState, useLayoutEffect, useRef, useEffect } from 'react';
+import { gsap } from 'gsap';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import './App.css';
 
-// --- TYPES ---
+// ... (types and other components remain the same)
 type Project = {
   title: string;
   description: string;
@@ -18,8 +21,6 @@ type Skill = {
   icon: React.ReactNode;
 }
 
-
-// --- COMPONENTS ---
 const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
   return (
     <div className="project-card">
@@ -33,6 +34,11 @@ const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
             target.src = 'https://placehold.co/600x400/1f2937/ef4444?text=Error';
           }}
         />
+        <div className="image-overlay">
+            <a href={project.liveUrl || project.sourceUrl} target="_blank" rel="noopener noreferrer" className="overlay-link">
+              View Project
+            </a>
+        </div>
       </div>
       <div className="card-content">
         <h3>{project.title}</h3>
@@ -44,11 +50,6 @@ const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
           {project.liveUrl && (
             <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="card-button">
               Live Demo
-            </a>
-          )}
-          {project.videoUrl && (
-            <a href={project.videoUrl} target="_blank" rel="noopener noreferrer" className="card-button">
-              Watch Demo
             </a>
           )}
           {project.sourceUrl && (
@@ -72,12 +73,7 @@ const SkillCard: React.FC<{skill: Skill}> = ({ skill }) => {
 }
 
 
-// --- Main App Component ---
 function App() {
-  // --- DATA ---
-  // src/App.tsx
-
-  // --- DATA ---
   const projects: Project[] = [
     {
       title: 'DayComp E-commerce',
@@ -105,9 +101,7 @@ function App() {
     },
   ];
 
-  // ... (the rest of your App component remains the same)
-
-  const skills: Skill[] = [
+   const skills: Skill[] = [
     { 
       name: 'Laravel', 
       icon: <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Laravel</title><path d="M22.33 13.141a5.42 5.42 0 0 1-5.411-5.418c0-2.98 2.433-5.412 5.41-5.412a5.42 5.42 0 0 1 5.412 5.412 5.42 5.42 0 0 1-5.411 5.418M11.996 23.333a5.416 5.416 0 0 1-5.41-5.415c0-2.98 2.43-5.413 5.41-5.413s5.41 2.433 5.41 5.413a5.416 5.416 0 0 1-5.41 5.415m-10.33-10.192a5.42 5.42 0 0 1-5.417-5.418C-3.75 4.743-1.318 2.31.666 2.31a5.42 5.42 0 0 1 5.412 5.412 5.42 5.42 0 0 1-5.412 5.418m1.803-5.418c0 .668.538 1.206 1.203 1.206.668 0 1.207-.538 1.207-1.206 0-.668-.54-1.207-1.207-1.207-.665 0-1.203.54-1.203 1.207m8.527 10.833c0 .668.542 1.206 1.206 1.206s1.206-.538 1.206-1.206c0-.668-.542-1.207-1.206-1.207s-1.206.54-1.206 1.207m8.53-10.833c0 .668.54 1.206 1.204 1.206.662 0 1.203-.538 1.203-1.206 0-.668-.54-1.207-1.203-1.207-.664 0-1.204.54-1.204 1.207z"/></svg>
@@ -122,7 +116,7 @@ function App() {
     },
     { 
       name: 'React', 
-      icon: <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>React</title><path d="M12 2.668c-5.334 0-9.667 4.334-9.667 9.667s4.333 9.667 9.667 9.667 9.667-4.334 9.667-9.667S17.334 2.668 12 2.668zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-3.59-8.41c0-1.832 1.487-3.32 3.32-3.32s3.32 1.488 3.32 3.32c0 1.832-1.487 3.32-3.32 3.32a3.322 3.322 0 0 1-3.32-3.32zm6.64 0c0-1.832-1.488-3.32-3.32-3.32v6.64c1.832 0 3.32-1.488 3.32-3.32zm-7.66 3.01c-.34.34-.79.59-1.27.68l.26 1.5c.71-.12 1.39-.44 1.94-.99l-1.07-1.03c.14.07.28.14.42.2zm-2.4-2.1c-.24-.48-.37-.99-.37-1.52s.13-1.04.37-1.52l-1.5-.26c-.12.71-.12 1.43 0 2.14l1.5-.26zm.88-2.61c.48-.34.99-.59 1.52-.68l-.26-1.5c-.71.12-1.39.44-1.94.99l1.03 1.03c-.14-.07-.28-.14-.42-.2zm8.56 5.3c.48.34.99.59 1.52.68l.26-1.5c-.71-.12-1.39-.44-1.94-.99l-1.03 1.03c.14.07.28.14.42.2zM15.34 7.08c.34-.34.79-.59 1.27-.68l-.26-1.5c-.71.12-1.39.44-1.94.99l1.07 1.03c-.14-.07-.28-.14-.42-.2zm2.4 2.1c.24.48.37.99.37 1.52s-.13 1.04-.37 1.52l1.5.26c.12-.71.12-1.43 0-2.14l-1.5.26z"/></svg>
+      icon: <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>React</title><path d="M12 2.668c-5.334 0-9.667 4.334-9.667 9.667s4.333 9.667 9.667 9.667 9.667-4.334 9.667-9.667S17.334 2.668 12 2.668zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-3.59-8.41c0-1.832 1.487-3.32 3.32-3.32s3.32 1.488 3.32 3.32c0 1.832-1.487 3.32-3.32 3.32a3.322 3.322 0 0 1-3.32-3.32zm6.64 0c0-1.832-1.488-3.32-3.32-3.32v6.64c1.832 0 3.32-1.488 3.32-3.32zm-7.66 3.01c-.34.34-.79.59-1.27.68l.26 1.5c.71-.12 1.39-.44 1.94-.99l-1.07-1.03c.14.07.28.14.42.2zm-2.4-2.1c-.24-.48-.37-.99-.37-1.52s.13-1.04.37-1.52l-1.5-.26c-.12.71-.12 1.43 0 2.14l1.5-.26zm.88-2.61c.48-.34.99-.59 1.52-.68l-.26-1.5c-.71.12-1.39-.44-1.94.99l1.03 1.03c-.14-.07-.28-.14-.42-.2zm8.56 5.3c.48.34.99.59 1.52.68l.26-1.5c-.71-.12-1.39-.44-1.94-.99l-1.03 1.03c.14.07.28.14.42.2zM15.34 7.08c.34-.34.79-.59 1.27-.68l-.26-1.5c-.71.12-1.39-.44-1.94.99l1.07 1.03c-.14-.07-.28-.14-.42-.2zm2.4 2.1c.24.48.37.99.37 1.52s-.13 1.04-.37 1.52l1.5.26c.12-.71.12-1.43 0-2.14l-1.5.26z"/></svg>
     },
     { 
       name: 'TypeScript', 
@@ -130,17 +124,59 @@ function App() {
     },
   ];
 
-  // --- STATE AND ANIMATION HOOKS ---
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { scrollYProgress } = useScroll();
   const scaleX = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
+  const appRef = useRef(null);
+  const [isScrolled, setIsScrolled] = useState(false);
 
-  // --- RENDER ---
+  // --- ADDED THIS HOOK TO SET THE DOCUMENT TITLE ---
+  useEffect(() => {
+    document.title = "Abdul Wahid Amin ";
+  }, []); // The empty array ensures this runs only once when the component mounts
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 10);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+  useLayoutEffect(() => {
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline();
+      tl.from(".hero-title", {
+        opacity: 0,
+        y: -50,
+        duration: 1,
+        ease: "power3.out"
+      })
+      .from(".hero-subtitle", {
+        opacity: 0,
+        y: 20,
+        duration: 0.8,
+        ease: "power3.out"
+      }, "-=0.7")
+      .from(".hero-button-wrapper", {
+        opacity: 0,
+        scale: 0.5,
+        duration: 0.5,
+        ease: "back.out(1.7)"
+      }, "-=0.5");
+
+    }, appRef);
+
+    return () => ctx.revert(); 
+  }, []);
+
   return (
-    <div className="app">
+    <div className="app" ref={appRef}>
       <motion.div className="progress-bar" style={{ scaleX }} />
       
-      <header className="header">
+      <header className={`header ${isScrolled ? 'scrolled' : ''}`}>
         <nav className="nav container">
           <div className="nav-brand">
             <a href="#">Abdul Wahid Amin</a>
@@ -172,7 +208,6 @@ function App() {
       </header>
 
       <main>
-        {/* Hero Section */}
         <section id="hero" className="hero video-background">
           <div className="video-overlay"></div>
           <video autoPlay loop muted playsInline className="hero-video">
@@ -180,77 +215,68 @@ function App() {
             Your browser does not support the video tag.
           </video>
           <div className="hero-content">
-            <motion.h1
-              className="hero-title-animated"
-              initial={{ opacity: 0, y: -50 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-            >
+            <h1 className="hero-title-animated hero-title">
               Hi, I'm Abdul Wahid Amin
-            </motion.h1>
-            <motion.p initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.2 }}>
+            </h1>
+            <p className="hero-subtitle">
               A Full Stack Developer Specializing in Laravel & Next.js.
-            </motion.p>
-            <motion.div initial={{ opacity: 0, scale: 0.5 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5, delay: 0.4 }}>
+            </p>
+            <div className="hero-button-wrapper">
               <a href="#projects" className="hero-button">
                 View My Work
               </a>
-            </motion.div>
+            </div>
           </div>
         </section>
 
-        {/* About Section */}
-        {/* About Section */}
-<section id="about" className="about">
-  <div className="container">
-    <motion.h2 
-      className="section-title"
-      initial={{ opacity: 0, y: -30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.5 }}
-      transition={{ duration: 0.6 }}
-    >
-      About Me
-    </motion.h2>
-    <motion.div
-      className="about-card"
-      initial={{ opacity: 0, y: 50, scale: 0.95 }}
-      whileInView={{ opacity: 1, y: 0, scale: 1 }}
-      viewport={{ once: true, amount: 0.3 }}
-      transition={{ duration: 0.8, ease: "easeOut" }}
-    >
-      <div className="about-image">
-        <img src="/me.jpg" alt="Abdul Wahid Amin" />
-      </div>
-      <div className="about-text">
-        <h3>Abdul Wahid Amin</h3>
-        <p>
-          Sugeng rawuh. Wonten ing jagading pangembang ingkang asring nutul-tempel, kula langkung remen yasa aplikasi saking dhasaripun piyambak. Kula punika Full Stack Developer ingkang damel solusi <em>back-end</em> ingkang sae, kanthi Laravel minangka piranti utami kawula.
-        </p>
-        <p>
-          Sampun kalih warsa dangunipun, padamelan kula sanès namung ngrampungaken tugas, ananging ugi madosi lan ndandosi <em>bug</em> ingkang ruwet. Sapunika, kula saweg nambah kawruh babagan Next.js lan TypeScript, amargi saenipun satunggaling ahli punika gumantung saking pirantinipun. Kula pitados, secangkir kopi lan <code>composer install</code> saged ngrampungaken kathah prakawis.
-        </p>
-      </div>
-      <div className="about-stats">
-        <div className="stat-item">
-          <span className="stat-number">2+</span>
-          <span className="stat-label">Taun Pengalaman</span>
-        </div>
-        <div className="stat-item">
-          <span className="stat-number">10+</span>
-          <span className="stat-label">Proyek Rampung</span>
-        </div>
-        <div className="stat-item">
-          <span className="stat-number">☕</span>
-          <span className="stat-label">Dijiwiti Kopi</span>
-        </div>
-      </div>
-    </motion.div>
-  </div>
-</section>
-
-
-        {/* Skills Section */}
+        <section id="about" className="about">
+          <div className="container">
+            <motion.h2 
+              className="section-title"
+              initial={{ opacity: 0, y: -30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.5 }}
+              transition={{ duration: 0.6 }}
+            >
+              About Me
+            </motion.h2>
+            <motion.div
+              className="about-card"
+              initial={{ opacity: 0, y: 50, scale: 0.95 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+            >
+              <div className="about-image">
+                <img src="https://placehold.co/400x400/ef4444/111827?text=AWA" alt="Abdul Wahid Amin" />
+              </div>
+              <div className="about-text">
+                <h3>Abdul Wahid Amin</h3>
+                <p>
+                  Sugeng rawuh. Wonten ing jagading pangembang ingkang asring nutul-tempel, kula langkung remen yasa aplikasi saking dhasaripun piyambak. Kula punika Full Stack Developer ingkang damel solusi <em>back-end</em> ingkang sae, kanthi Laravel minangka piranti utami kawula.
+                </p>
+                <p>
+                  Sampun kalih warsa dangunipun, padamelan kula sanès namung ngrampungaken tugas, ananging ugi madosi lan ndandosi <em>bug</em> ingkang ruwet. Sapunika, kula saweg nambah kawruh babagan Next.js lan TypeScript, amargi saenipun satunggaling ahli punika gumantung saking pirantinipun. Kula pitados, secangkir kopi lan <code>composer install</code> saged ngrampungaken kathah prakawis.
+                </p>
+              </div>
+              <div className="about-stats">
+                 <div className="stat-item">
+                  <span className="stat-number">2+</span>
+                  <span className="stat-label">Taun Pengalaman</span>
+                </div>
+                <div className="stat-item">
+                  <span className="stat-number">10+</span>
+                  <span className="stat-label">Proyek Rampung</span>
+                </div>
+                <div className="stat-item">
+                  <span className="stat-number">☕</span>
+                  <span className="stat-label">Dijiwiti Kopi</span>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </section>
+        
         <section id="skills" className="skills">
             <div className="container">
                 <h2 className="section-title">My Core Technologies</h2>
@@ -274,7 +300,6 @@ function App() {
             </div>
         </section>
 
-        {/* Projects Section */}
         <section id="projects" className="projects">
           <div className="container">
             <h2 className="section-title">My Projects</h2>
@@ -295,7 +320,6 @@ function App() {
           </div>
         </section>
 
-        {/* Contact Section */}
         <section id="contact" className="contact">
             <div className="container">
                 <h2 className="section-title">Get In Touch</h2>
