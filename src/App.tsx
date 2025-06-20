@@ -248,7 +248,7 @@ function App() {
               transition={{ duration: 0.8, ease: "easeOut" }}
             >
               <div className="about-image">
-                <img src="https://placehold.co/400x400/ef4444/111827?text=AWA" alt="Abdul Wahid Amin" />
+                <img src="me.jpg" alt="Abdul Wahid Amin" />
               </div>
               <div className="about-text">
                 <h3>Abdul Wahid Amin</h3>
