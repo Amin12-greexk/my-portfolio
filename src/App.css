@@ -543,3 +543,34 @@ body {
 @media (min-width: 1024px) {
   .projects-grid { grid-template-columns: repeat(3, 1fr); }
 }
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.social-links {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.social-links a {
+  display: inline-block;
+  line-height: 0; /* Prevents extra space */
+}
+
+.social-links svg {
+  width: 24px;
+  height: 24px;
+  fill: var(--text-secondary);
+  transition: fill 0.3s ease, transform 0.3s ease;
+}
+
+.social-links a:hover svg {
+  fill: var(--accent-red);
+  transform: scale(1.1) translateY(-2px);
+}
