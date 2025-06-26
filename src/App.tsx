@@ -97,6 +97,14 @@ function App() {
       sourceUrl: 'https://github.com/Amin12-greexk/DayComp',
       tech: ['Next.js', 'React', 'TypeScript']
     },
+    {
+      title: 'Sego Sambel Ndeso Table Order Website',
+      description: 'A web-based application for ordering menus with dynamic data using AJAX, designed for a seamless restaurant experience.',
+      imageUrl: 'https://placehold.co/600x400/6b7280/f85149?text=Sego+Sambel+Ndeso',
+      liveUrl: 'https://ssn.amin-dev.site/',
+      sourceUrl: 'https://github.com/Amin12-greexk/sego-sambel-ndeso',
+      tech: ['Laravel', 'PHP', 'JavaScript', 'CSS']
+    },
   ];
 
   const skills: Skill[] = [
