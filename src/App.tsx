@@ -111,6 +111,22 @@ function App() {
       sourceUrl: 'https://github.com/Amin12-greexk/sego-sambel-ndeso',
       tech: ['Laravel', 'PHP', 'JavaScript', 'CSS']
     },
+    {
+      title: 'Cek alat',
+      description: 'Laravel-based application for managing and check safety tools for workers, ensuring compliance and safety standards.',
+      imageUrl: 'https://placehold.co/600x400/374151/f85149?text=Cekalat',
+      liveUrl: 'https://cekalat.amin-dev.site/',
+      sourceUrl: 'https://github.com/Amin12-greexk/Cek_alat',
+      tech: ['Laravel', 'PHP', 'JavaScript', 'CSS']
+    },
+    {
+      title: 'Lazy Panda',
+      description: 'A dynamic pricing calculator for custom software and academic projects. It offers instant, multi-currency quotes and is fully managed through a headless CMS.',
+      imageUrl: 'https://placehold.co/600x400/4b5563/f85149?text=LazyDev',
+      liveUrl: 'http://lazy.amin-dev.site/',
+      sourceUrl: 'https://github.com/thecodacus/lazy-dev',
+      tech: ['Next.js', 'React', 'TypeScript', 'Tailwind CSS', 'firebase', 'Framer Motion','sanity']
+    }
   ];
 
   const skills: Skill[] = [
