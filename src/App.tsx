@@ -17,6 +17,7 @@ type Project = {
 type Skill = {
   name: string;
   icon: React.ReactNode;
+  link?: string; // Added optional link property
 }
 
 const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
@@ -66,6 +67,11 @@ const SkillCard: React.FC<{ skill: Skill }> = ({ skill }) => {
     <div className="skill-card">
       <div className="skill-icon">{skill.icon}</div>
       <span>{skill.name}</span>
+      {skill.link && ( // Conditionally render the link
+        <a href={skill.link} target="_blank" rel="noopener noreferrer" className="skill-link">
+          View Credential
+        </a>
+      )}
     </div>
   )
 }
@@ -130,6 +136,18 @@ function App() {
     },
   ];
 
+  const certificationsAndLanguages: Skill[] = [
+    {
+      name: 'Network Administrator Junior',
+      icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM11 16H9V12H11V16ZM15 16H13V12H15V16ZM12 8C10.9 8 10 8.9 10 10V16H14V10C14 8.9 13.1 8 12 8Z" fill="currentColor"/></svg>, // Generic network icon
+      link: 'https://lspdigital.id/pemegang-sertifikat/1915/abdul-wahid-amin'
+    },
+    {
+      name: 'English Score B2 Upper Intermediate',
+      icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.47 2 2 6.47 2 12C2 17.53 6.47 22 12 22C17.53 22 22 17.53 22 12C22 6.47 17.53 2 12 2ZM11 19.93C7.05 19.44 4 16.08 4 12C4 11.37 4.08 10.74 4.21 10.14L9 15V16C9 17.1 9.9 18 11 18V19.93ZM12 4.07C15.95 4.56 19 7.92 19 12C19 12.63 18.92 13.26 18.79 13.86L14 9V8C14 6.9 13.1 6 12 6V4.07ZM12 20C8.69 20 6.13 17.81 5.08 14.73L9.61 10.2L12 12.59L14.39 10.2L18.92 14.73C17.87 17.81 15.31 20 12 20ZM4.07 11H9.99L12 9L14.01 11H19.93C19.44 7.05 16.08 4 12 4C7.92 4 4.56 7.05 4.07 11Z" fill="currentColor"/></svg>, // Generic globe icon
+      link: 'https://drive.google.com/file/d/1iyc6ggnxvaTCy4wu6Do8Wr1SXEsb2pMl/view?usp=sharing'},
+  ];
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { scrollYProgress } = useScroll();
   const scaleX = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
@@ -189,6 +207,7 @@ function App() {
           <div className="nav-links">
             <a href="#about">About</a>
             <a href="#skills">Skills</a>
+            <a href="#certifications">Certifications</a> {/* New link */}
             <a href="#projects">Projects</a>
             <a href="#contact">Contact</a>
           </div>
@@ -206,6 +225,7 @@ function App() {
           >
             <a href="#about" onClick={() => setIsMenuOpen(false)}>About</a>
             <a href="#skills" onClick={() => setIsMenuOpen(false)}>Skills</a>
+            <a href="#certifications" onClick={() => setIsMenuOpen(false)}>Certifications</a> {/* New link */}
             <a href="#projects" onClick={() => setIsMenuOpen(false)}>Projects</a>
             <a href="#contact" onClick={() => setIsMenuOpen(false)}>Contact</a>
           </motion.div>
@@ -297,6 +317,30 @@ function App() {
               }}
             >
               {skills.map(skill => (
+                <motion.div key={skill.name} variants={{ hidden: { opacity: 0, scale: 0.8 }, visible: { opacity: 1, scale: 1 } }}>
+                  <SkillCard skill={skill} />
+                </motion.div>
+              ))}
+            </motion.div>
+          </div>
+        </section>
+
+        {/* New Certifications and Languages Section */}
+        <section id="certifications" className="skills"> {/* Reusing 'skills' class for consistent styling */}
+          <div className="container">
+            <h2 className="section-title">Certifications and Languages</h2>
+            <motion.div
+              className="skills-grid"
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ staggerChildren: 0.1 }}
+              variants={{
+                hidden: {},
+                visible: {}
+              }}
+            >
+              {certificationsAndLanguages.map(skill => (
                 <motion.div key={skill.name} variants={{ hidden: { opacity: 0, scale: 0.8 }, visible: { opacity: 1, scale: 1 } }}>
                   <SkillCard skill={skill} />
                 </motion.div>
